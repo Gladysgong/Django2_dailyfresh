@@ -7,13 +7,15 @@ import os
 
 # broker和worker在同一台机子上则需要加上本段代码
 import django
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Django2_dailyfresh.settings')
 django.setup()
 
 from goods.models import *
 from django_redis import get_redis_connection
 
-app = Celery('celery_tasks.tasks', broker='redis://127.0.0.1:6379/0')
+app = Celery('celery_tasks.tasks', broker='redis://:foobared@127.0.0.1:6379/0')  # redis添加密码
+# app = Celery('celery_tasks.tasks', broker='redis://127.0.0.1:6379/0')
 
 
 @app.task
