@@ -5,6 +5,7 @@
 ![Finish](https://img.shields.io/badge/Finish-true-green)
 ---
 # 天天生鲜-django2.2版本
+  https://github.com/Gladysgong/Django2_dailyfresh
 
 ## 简介
 **本项目替换原项目框架django1.8为最新版的django2.2.5（已修复为2.2.10）**，该项目包含了实际开发中的电商项目中大部分的功能开发和知识点实践，

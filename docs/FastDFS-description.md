@@ -287,6 +287,10 @@ ln -s /usr/share/nginx/sbin/nginx /usr/sbin/nginx
 ```text
 vim /etc/nginx/nginx.conf
 ```
+
+参考：https://blog.csdn.net/tjcyjd/article/details/69663348
+     https://blog.csdn.net/qq_34301871/article/details/80060235
+     
 添加http模块里边修改server如下，如若没有自行添加
 ```text
 server{                                          
