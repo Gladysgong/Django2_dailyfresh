@@ -119,6 +119,7 @@ class LoginView(View):
         # 接收数据
         username = request.POST.get('username')
         password = request.POST.get('pwd')
+        remember = request.POST.get('remember', None)
 
         # 校验数据
         if not all([username, password]):
@@ -136,7 +137,7 @@ class LoginView(View):
                 response = redirect(next_url)  # HttpResponseRedirect
 
                 # 判断是否记住用户名
-                remember = request.POST.get('remember')
+                # remember = request.POST.get('remember')
                 if remember == 'on':
                     response.set_cookie('username', username, max_age=24 * 3600)
                 else:
