@@ -45,13 +45,21 @@ class RegisterView(View):
 
         # 校验用户名是否重复
         try:
-            User.objects.get(username=username)
+            user = User.objects.get(username=username)
         except User.DoesNotExist:
-            User.username = None
+            user = None
 
-        if User.username:
-            # 用户名存在
+        if user:
             return render(request, 'register.html', {'errmsg': '用户名已存在'})
+
+        # try:
+        #     User.objects.get(username=username)
+        # except User.DoesNotExist:
+        #     User.username = None
+        #
+        # if User.username:
+        #     # 用户名存在
+        #     return render(request, 'register.html', {'errmsg': '用户名已存在'})
 
         # 进行业务处理：进行注册,django内置的用户认证系统
         user = User.objects.create_user(username, email, password)
