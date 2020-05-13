@@ -37,20 +37,36 @@ OS: Mac
 
 * 开发架构    
 采用BS结构, 即Browser/Server(浏览器/服务器)结构,构建一个web的网站商城系统, 其架构逻辑:   
-![frame](doc/mdImages/framework.png)
+![frame](docs/mdImages/framework.png)
+
 
 * 部署架构     
 Nginx+uwsgi     
-![deploy](doc/mdImages/deploy.PNG)
+![deploy](docs/mdImages/deploy.PNG)
     
 ## 功能模块
 主要分为四个大模块:    
 * 用户模块
-* 商品相关模块   
-* 购物车相关模块  
+   
+    - 注册登录
+        - 采用Django自带的认证系统,继承了AbstractUser类，本身就包含了cookie、session操作
+            - 基本方法使用authenticate()、login()、logout()、login_required() 
+            - Redis实现对session的缓存，邮件采用Django内置的send_mail()函数，采用celery实现异步请求
+            - 历史浏览记录使用Redis的list作为记录
+
+* 商品相关模块
+    - 采用MySQL数据库
+    - haystack+whoosh实现对商品的检索
+    - Nginx+fastdfs实现对图片的存储
+* 购物车相关模块
+    - 使用Redis对购物车商品进行记录缓存
 * 订单相关模块
-    
-    
+    - 生成订单
+        - 使用MySQL事务，对一组sql操作进行提交或者撤销 使用悲观锁处理订单并发效果
+    - 支付订单
+        - 调用支付宝的支付接口。
+
+
 - [x] 用户模块
     - [x] 注册
     - [x] 登录
@@ -75,11 +91,11 @@ Nginx+uwsgi
     - [x] 查询支付结果
     - [x] 评论
  
-[查看各模块详情分析](doc/mdImages/Analysis.md)
+[查看各模块详情分析](docs/Analysis.md)
 
 ## 数据库表
 
-![DB](doc/mdImages/DBtables.png)
+![DB](docs/mdImages/DBtables.png)
 * SPU是商品信息聚合的最小单位，是一组可复用、易检索的标准化信息的集合，该集合描述了一个产品的特性。通俗点讲，属性值、特性相同的商品就可以称为一个SPU。     
 例如，iphone4就是一个SPU，N97也是一个SPU，这个与商家无关，与颜色、款式、套餐也无关。
 * SKU即库存进出计量的单位， 可以是以件、盒、托盘等为单位，在服装、鞋类商品中使用最多最普遍。   
@@ -88,7 +104,7 @@ Nginx+uwsgi
 
 ## 功能模块展示
 
-[点击查看--多图预警](docs/mdImages/show.md)
+[点击查看--多图预警](docs/show.md)
 
 ## 功能与性能优化
 1. 用户注册发激活邮件时，可能发送邮件所需的时间较长，客户端会需要等待，用户体验不好。     
